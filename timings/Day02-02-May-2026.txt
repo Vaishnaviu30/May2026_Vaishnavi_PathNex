@@ -5,6 +5,7 @@ What I did today
 3 hours watched youtube videos related to Linux
 1 Hour watching english videos
 2 hour watching fundamental of devops and SDLC lifecycle video
+1 hour coding practice
 
 Tomorrow's Task
 
@@ -12,3 +13,4 @@ Tomorrow's Task
 3 hours watched youtube videos related to Linux
 1 Hour watching english videos
 2 hour watching Virtual Machine Part-1 and Part-2 video
+1 hour coding practice
