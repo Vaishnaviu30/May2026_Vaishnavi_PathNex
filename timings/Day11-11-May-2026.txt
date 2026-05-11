@@ -1,8 +1,9 @@
 What I did today
 
-3 hours watched youtube videos related AWS
+3 hours watch utube video on Docker
+3 hours watched youtube videos related Docker
 1 Hour watching english videos
-2 hour practical on AWS
+2 hour practical on Docker
 1 hour coding practice
 
 Tomorrow's Task
