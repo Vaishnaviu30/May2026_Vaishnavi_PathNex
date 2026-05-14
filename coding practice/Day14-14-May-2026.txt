@@ -1,0 +1,165 @@
+1. Terraform (EC2 + VPC + Subnet + IGW + RT)
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_vpc" "vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_subnet" "subnet" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "ap-south-1a"
+}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
+}
+
+resource "aws_route_table" "rt" {
+  vpc_id = aws_vpc.vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+}
+
+resource "aws_route_table_association" "rta" {
+  subnet_id      = aws_subnet.subnet.id
+  route_table_id = aws_route_table.rt.id
+}
+
+resource "aws_security_group" "sg" {
+  vpc_id = aws_vpc.vpc.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_instance" "ec2" {
+  ami           = "ami-0f58b397bc5c1f2e8"
+  instance_type = "c5.xlarge"
+  subnet_id     = aws_subnet.subnet.id
+
+  vpc_security_group_ids = [aws_security_group.sg.id]
+
+  key_name = "your-key"
+}
+
+2. Ansible (Nginx + HTML)
+
+- hosts: web
+  become: yes
+
+  tasks:
+    - apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - service:
+        name: nginx
+        state: started
+
+    - copy:
+        dest: /var/www/html/index.html
+        content: "<h1>Deployed</h1>"
+
+3. Kubernetes (Deployment + Service)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        
+service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+  type: NodePort
+
+4. Shell Script
+
+#!/bin/bash
+
+lscpu
+free -h
+df -h
+
+## Jenkins Pipeline — Scheduled Build
+
+pipeline {
+    agent any
+    environment {
+        INSTITUTE_NAME = "Pathnex"
+    }
+    triggers {
+        cron('H 2 * * *') // every day at 2 AM
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Pathnex/sample-java-app.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+    }
+}
+
+## GitLab CI — Scheduled Pipeline
+
+stages:
+  - build
+
+build:
+  stage: build
+  image: maven:3.8.1-jdk-17
+  script:
+    - git clone https://github.com/Pathnex/sample-java-app.git
+    - cd sample-java-app
+    - mvn clean package
