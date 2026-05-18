@@ -1,15 +1,15 @@
 What I did today
 
-3 hours watch utube video on Kubernete Helm
-3 hours watched youtube videos related Kubernetes
-1 Hour watching english videos
-2 hour practical on Kubernetes Helm
-1 hour coding practice
-
-Tomorrow's Task
-
 3 hours watch utube video on Kubernete Class-5
 3 hours watched youtube videos related Kubernetes
 1 Hour watching english videos
 2 hour practical on Kubernetes Class-5
+1 hour coding practice
+
+Tomorrow's Task
+
+3 hours watch utube video on Kubernete 
+3 hours watched youtube videos related Kubernetes
+1 Hour watching english videos
+2 hour practical on Kubernetes 
 1 hour coding practice
