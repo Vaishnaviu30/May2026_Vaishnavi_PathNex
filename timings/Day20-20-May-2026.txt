@@ -1,9 +1,9 @@
 What I did today
 
-3 hours watch utube video on Kubernete Class-6
-3 hours watched youtube videos related Kubernetes
+3 hours watch utube video on ArgoCD
+3 hours watched youtube videos related ArgoCD
 1 Hour watching english videos
-2 hour practical on Kubernetes Class-6
+2 hour practical on ArgoCD
 1 hour coding practice
 
 Tomorrow's Task
