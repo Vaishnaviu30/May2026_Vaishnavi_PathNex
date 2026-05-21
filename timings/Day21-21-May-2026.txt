@@ -1,14 +1,14 @@
 What I did today
 
-3 hours watch utube video on ArgoCD
-3 hours watched youtube videos related ArgoCD
+3 hours watch utube video on Terraform + Kubernetes
+3 hours watched youtube videos related Terraform
 1 Hour watching english videos
-2 hour practical on ArgoCD
+2 hour practical on Terraform
 1 hour coding practice
 
 Tomorrow's Task
 
-3 hours watch utube video on Terraform + Kubernetes
+3 hours watch utube video on Terraform 
 3 hours watched youtube videos related Terraform
 1 Hour watching english videos
 2 hour practical on Terraform
