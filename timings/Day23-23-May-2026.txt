@@ -1,9 +1,9 @@
 What I did today
 
-3 hours watch utube video on Terraform Class -2 
-3 hours watched youtube videos related Terraform
+3 hours watch utube video on Ansible
+3 hours watched youtube videos related Ansible
 1 Hour watching english videos
-2 hour practical on Terraform Class-2
+2 hour practical on Ansible
 1 hour coding practice
 
 Tomorrow's Task
