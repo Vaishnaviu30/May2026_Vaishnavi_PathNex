@@ -8,8 +8,8 @@ What I did today
 
 Tomorrow's Task
 
-3 hours watch utube video on Ansible
-3 hours watched youtube videos related Ansible
+3 hours watch utube video on CI-CD + Terraform + Ansible
+3 hours watched youtube related videos
 1 Hour watching english videos
-2 hour practical on Ansible
+2 hour practical on CI-CD + Terraform + Ansible
 1 hour coding practice
