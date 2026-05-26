@@ -1,9 +1,9 @@
 What I did today
 
-3 hours watch utube video on CI-CD + Terraform + Ansible
-3 hours watched youtube related videos
+3 hours watch utube video on DevOps Monitoring
+3 hours watched youtube related DevOps Monitoring
 1 Hour watching english videos
-2 hour practical on CI-CD + Terraform + Ansible
+2 hour practical on DevOps Monitoring
 1 hour coding practice
 
 Tomorrow's Task
