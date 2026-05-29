@@ -1,9 +1,9 @@
 What I did today
 
-3 hours watch utube video on Kafka
-3 hours watched youtube related Kafka
+3 hours watch utube video on SSL/TLS
+3 hours watched youtube related SSL/TLS
 1 Hour watching english videos
-2 hour practical on Kafka
+2 hour practical on SSL/TLS
 1 hour coding practice
 
 Tomorrow's Task
