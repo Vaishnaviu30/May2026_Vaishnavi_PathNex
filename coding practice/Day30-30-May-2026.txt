@@ -1,0 +1,249 @@
+### Ansible:
+- Create user "pathnex-admin"
+- Add SSH key
+- Set shell to /bin/bash
+
+---
+- name: Create pathnex-admin user
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Create user
+      user:
+        name: pathnex-admin
+        shell: /bin/bash
+        state: present
+
+    - name: Create .ssh directory
+      file:
+        path: /home/pathnex-admin/.ssh
+        state: directory
+        owner: pathnex-admin
+        group: pathnex-admin
+        mode: '0700'
+
+    - name: Add SSH key
+      authorized_key:
+        user: pathnex-admin
+        key: "{{ lookup('file', 'id_rsa.pub') }}"
+
+### Terraform:
+- Create EC2 with tag:
+     Project = "Pathnex-Training"
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_instance" "pathnex_ec2" {
+  ami           = "ami-0c02fb55956c7d316"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name    = "Pathnex-Server"
+    Project = "Pathnex-Training"
+  }
+}
+
+### Kubernetes:
+- Deployment (2 replicas)
+- Expose via ClusterIP
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+
+spec:
+  selector:
+    app: nginx
+
+  ports:
+  - port: 80
+    targetPort: 80
+
+  type: ClusterIP
+
+
+
+### Shell:
+- Menu with:
+  1) IP
+  2) Disk
+  3) Memory
+
+  #!/bin/bash
+
+echo "1. IP"
+echo "2. Disk"
+echo "3. Memory"
+
+read -p "Enter choice: " choice
+
+case $choice in
+1)
+    hostname -I
+    ;;
+2)
+    df -h
+    ;;
+3)
+    free -m
+    ;;
+*)
+    echo "Invalid Choice"
+    ;;
+esac
+
+## Jenkins Pipeline
+
+- Create **Declarative Pipeline** with stages:
+- Infrastructure – Terraform EC2 with tag Project = "Pathnex-Training"
+- App Deployment – Ansible user creation, SSH setup, Kubernetes deployment
+- Monitoring Checks – Shell menu to display:
+- IP
+- Disk
+- Memory
+
+- Use environment variables for all stages:
+- INSTITUTE_NAME = "Pathnex"
+- TEAM = "DevOps"
+- ENV = "prod"
+- PROJECT = "Pathnex-Training"
+
+pipeline {
+    agent any
+
+    environment {
+        INSTITUTE_NAME = "Pathnex"
+        TEAM = "DevOps"
+        ENV = "prod"
+        PROJECT = "Pathnex-Training"
+    }
+
+    stages {
+
+        stage('Infrastructure') {
+            steps {
+                echo "Creating Terraform Infrastructure"
+
+                sh '''
+                terraform init
+                terraform apply -auto-approve
+                '''
+            }
+        }
+
+        stage('App Deployment') {
+            steps {
+                echo "Running Ansible"
+
+                sh '''
+                ansible-playbook create_user.yml
+                '''
+
+                echo "Deploying Kubernetes"
+
+                sh '''
+                kubectl apply -f deployment.yaml
+                kubectl apply -f service.yaml
+                '''
+            }
+        }
+
+        stage('Monitoring Checks') {
+            steps {
+                sh '''
+                echo "IP Address"
+                hostname -I
+
+                echo "Disk Usage"
+                df -h
+
+                echo "Memory Usage"
+                free -m
+                '''
+            }
+        }
+    }
+}
+
+## GitLab CI
+
+- Create `.gitlab-ci.yml` with stages:
+- infrastructure – Terraform EC2 with Project tag
+- app_deployment – Ansible + Kubernetes deployment
+- monitoring_checks – Shell menu checks for:
+- IP
+- Disk
+- Memory
+
+- Define variables:
+- INSTITUTE_NAME = "Pathnex"
+- TEAM = "DevOps"
+- ENV = "prod"
+- PROJECT = "Pathnex-Training"
+
+stages:
+  - infrastructure
+  - app_deployment
+  - monitoring_checks
+
+variables:
+  INSTITUTE_NAME: "Pathnex"
+  TEAM: "DevOps"
+  ENV: "prod"
+  PROJECT: "Pathnex-Training"
+
+infrastructure:
+  stage: infrastructure
+
+  script:
+    - terraform init
+    - terraform apply -auto-approve
+
+app_deployment:
+  stage: app_deployment
+
+  script:
+    - ansible-playbook create_user.yml
+    - kubectl apply -f deployment.yaml
+    - kubectl apply -f service.yaml
+
+monitoring_checks:
+  stage: monitoring_checks
+
+  script:
+    - echo "IP Address"
+    - hostname -I
+
+    - echo "Disk Usage"
+    - df -h
+
+    - echo "Memory Usage"
+    - free -m
